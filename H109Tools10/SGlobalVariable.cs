@@ -6,17 +6,15 @@
 
     public class SGlobalVariable
     {
+        //++not implemented
         public static byte CCodeRestIMU = 0x13;
         public static byte CCodeSetAccMiddle = 0x16;
         public static byte CCodeSetCompass = 0x17;
         public static byte CCodeSetGyroTD = 0x15;
         public static byte CCodeSetGyroZero = 20;
-        public static byte CI_Calibrate1 = 6;
         public static byte CI_Debug_1 = 9;
         public static byte CI_Debug_String = 2;
         public static byte CI_DebugButton1 = 14;
-        public static byte CI_GetAdcStr = 12;
-        public static byte CI_GetMacDesc = 13;
         public static byte CI_GetRecData = 20;
         public static byte CI_RCVal = 0x10;
         public static byte CI_RecoverSys = 0x15;
@@ -26,13 +24,25 @@
         public static byte CI_SetDac = 8;
         public static byte CI_SetKey = 0xc6;
         public static byte CI_SetRcMax = 7;
-        public static byte CI_SetSysPram1 = 10;
         public static byte CI_SetSysPram2 = 11;
         public static byte CI_SetSysPram3 = 15;
         public static byte CI_SysInf = 0x13;
         public static byte CI_TRst = 3;
-        public static byte CI_UpdataMC = 0xc7;
+        //--not implemented
+
+        public static byte CI_Calibrate1 = 6;
+        public static byte CI_GetAdcStr = 12;
+        public static byte CI_GetMacDesc = 13;
+        public static byte CI_SetSysPram1 = 10;
+        public static byte CI_UpdataMC = 0xc7; //note difference with HidUsbCommunication.cs   CI_UpdataMC = 0xc5
+
+
+
         public static int EP_AccAngleLevel = 12;
+
+        //location of stuff in EEPROM       
+        public static int[] SysEEPRom = new int[100];
+        public static int UserParameterLoc = 0;  //not changed anywhere
         public static int EP_AltitudeP = (UserParameterLoc + 13);
         public static int EP_ARPidX = (UserParameterLoc + 9);
         public static int EP_ARPidY = (UserParameterLoc + 10);
@@ -47,20 +57,26 @@
         public static int EP_MotorMix = (UserParameterLoc + 15);
         public static int EP_RC8CHMapRev = (UserParameterLoc + 1);
         public static int EP_RcModeCtr = (UserParameterLoc + 3);
-        public static string FlightDesString;
-        public static uint FlightTime;
+
+
+        public static string FlightDesString; //FW version consists of:
+        // FV version: V HwNumber.Manufacturer.SwNumber
         public static uint HwNumber;
-        public static uint IdNumber;
-        public static bool IsSenserView = false;
         public static uint Manufacturer;
-        public static UsbCommunication mUsbCommunication = new UsbCommunication();
-        public static tRecordData RecordData;
         public static uint SwNumber;
-        public static int[] SysEEPRom = new int[100];
-        public static byte ToolsVersion = 10;
-        public static byte UCmd_MS_Data = 4;
-        public static int UserParameterLoc = 0;
-        public static WriteToAircraft WriteParameterToAircraft;
+        public static uint IdNumber;
+        public static uint FlightTime;
+
+
+        public static bool IsSenserView = false; //not implemented
+        public static tRecordData RecordData;   //not implemented
+        public static WriteToAircraft WriteParameterToAircraft; //not implemented here
+
+        public static UsbCommunication mUsbCommunication = new UsbCommunication();
+
+        public static byte ToolsVersion = 10; //used for communication
+        public static byte UCmd_MS_Data = 4; //not used
+
 
         public static byte GetByte(int loc)
         {

@@ -14,31 +14,36 @@
     public class HidUsbCommunication
     {
         private byte AckCmd;
+        
+        //++not implemented
         public string[] AdcName;
         public static byte CCodeRestIMU = 0x13;
         public static byte CCodeSetAccMiddle = 0x16;
         public static byte CCodeSetCompass = 0x17;
         public static byte CCodeSetGyroTD = 0x15;
         public static byte CCodeSetGyroZero = 20;
-        public static byte CI_Calibrate1 = 6;
         public static byte CI_Debug_1 = 9;
         public static byte CI_Debug_String = 2;
         public static byte CI_DebugButton1 = 14;
-        public static byte CI_GetAdcStr = 12;
-        public static byte CI_GetMacDesc = 13; //get FW version from UAV
         public static byte CI_RCVal = 0x10;
         public static byte CI_RestSenser = 0x11;
         public static byte CI_RStat = 4;
         public static byte CI_SetBLDC = 5;
         public static byte CI_SetDac = 8;
         public static byte CI_SetKey = 0xc6;
-        public static byte CI_SetRcMax = 7;
-        public static byte CI_SetSysPram1 = 10; //set UAV params
+        public static byte CI_SetRcMax = 7; 
         public static byte CI_SetSysPram2 = 11;
         public static byte CI_SetSysPram3 = 15;
-        public static byte CI_SysInf = 0x13;
+        public static byte CI_SysInf = 0x13;    
         public static byte CI_TRst = 3;
+        //--not implemented
+
+        public static byte CI_Calibrate1 = 6; //!!!!!
+        public static byte CI_GetAdcStr = 12;  //!!!!
+        public static byte CI_GetMacDesc = 13; //get FW version from UAV
+        public static byte CI_SetSysPram1 = 10; //set UAV params
         public static byte CI_UpdataMC = 0xc5;  //upload FW to UAV
+
         public byte[] ComBuf_R;
         public byte ComCmd;
         public int ComDataLen;
@@ -74,7 +79,7 @@
             }
             if (this.ComCmd == CI_GetMacDesc) //get FW version from UAV
             {
-                // V HwNumber.Manufacturer.SwNumber
+                // FV version: V HwNumber.Manufacturer.SwNumber
                 SGlobalVariable.HwNumber = this.ComBuf_R[0];
                 SGlobalVariable.Manufacturer = this.ComBuf_R[1];
                 SGlobalVariable.SwNumber = this.ComBuf_R[2];
