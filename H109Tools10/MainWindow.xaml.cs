@@ -37,6 +37,7 @@ namespace H109Tools10
         private bool iswrite;       
         private bool linkstate_prev;
         private bool StopUpgrade;
+        private bool isConnected=false;
 
         public MainWindow()
         {
@@ -135,6 +136,9 @@ namespace H109Tools10
                 this.fwinf.Content = SGlobalVariable.FlightDesString;
             }
         }
+
+        // FW update routine
+        // Reads file, decodes it, flashes, updates progress on button.
         public void MainControlUpgrade(object sender, DoWorkEventArgs e)
         {
             byte[] databuf = new byte[600];
@@ -331,190 +335,11 @@ namespace H109Tools10
                 }
             }
         }
-        public void MainControlUpgrade2(object sender, DoWorkEventArgs e)
-        {
-            byte[] databuf = new byte[600];
-            int num6 = 0x100;
-            this.StopUpgrade = false;
-            byte[] buffer4 = File.ReadAllBytes(this.BinFilePatch);
-            if (buffer4 == null)
-            {
-                MessageBox.Show((string)base.FindResource("ContentUpdateErr"), "Firmware", MessageBoxButton.OK, MessageBoxImage.Hand);
-            }
-            else
-            {
-                databuf[0] = 0;
-                databuf[1] = 1;
-                databuf[2] = 0;
-                databuf[3] = 1;
-                SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_UpdataMC, 0x10);
-                Thread.Sleep(100);
-                int num10 = buffer4[20] + buffer4[30];
-                num10 *= buffer4[0x15];
-                num10 += buffer4[0x1d];
-                int num11 = num10;
-                num11 *= buffer4[0x1c];
-                num10 = buffer4[1] + (~buffer4[3] * 0x100);
-                num11 = (buffer4[num10 + 5] + (buffer4[num10 + 7] << 8)) + (buffer4[num10 + 9] << 0x10);
-                if (num11 > 0x1fc020)
-                {
-                    MessageBox.Show("File lengh error");
-                }
-                else
-                {
-                    ushort num17 = buffer4[num10 + 12];
-                    num17 = (ushort)(num17 | ((ushort)(buffer4[num10 + 13] << 8)));
-                    byte[] buffer6 = new byte[10];
-                    buffer6[0] = buffer4[num10 + 14];
-                    buffer6[1] = buffer4[num10 + 15];
-                    buffer6[2] = buffer4[num10 + 0x10];
-                    buffer6[3] = buffer4[num10 + 0x11];
-                    buffer6[4] = buffer4[num10 + 0x12];
-                    buffer6[5] = buffer4[num10 + 0x13];
-                    buffer6[6] = buffer4[num10 + 20];
-                    byte[] buffer5 = new byte[num11];
-                    int index = 0;
-                    int num14 = 0;
-                    int num12 = (num10 + 4) + 0x20;
-                    while (index < num11)
-                    {
-                        byte num16 = buffer4[num12++];
-                        byte num15 = buffer4[num12++];
-                        if ((index % 4) == 0)
-                        {
-                            buffer5[index] = (byte)((num16 & 240) >> 4);
-                            buffer5[index] = (byte)(buffer5[index] | ((byte)((num15 & 15) << 4)));
-                            buffer5[index] = (byte)(buffer5[index] ^ buffer6[num14]);
-                        }
-                        else if ((index % 4) == 1)
-                        {
-                            buffer5[index] = (byte)((num16 & 240) >> 4);
-                            buffer5[index] = (byte)(buffer5[index] | ((byte)(num15 & 240)));
-                            buffer5[index] = (byte)(buffer5[index] ^ buffer6[num14]);
-                        }
-                        else if ((index % 4) == 2)
-                        {
-                            buffer5[index] = (byte)(num16 & 15);
-                            buffer5[index] = (byte)(buffer5[index] | ((byte)((num15 & 15) << 4)));
-                            buffer5[index] = (byte)(buffer5[index] ^ buffer6[num14]);
-                        }
-                        else if ((index % 4) == 3)
-                        {
-                            buffer5[index] = (byte)(num16 & 15);
-                            buffer5[index] = (byte)(buffer5[index] | ((byte)(num15 & 240)));
-                            buffer5[index] = (byte)(buffer5[index] ^ buffer6[num14]);
-                        }
-                        if (++num14 >= 7)
-                        {
-                            num14 = 0;
-                        }
-                        index++;
-                    }
-                    byte[] buffer2 = new byte[num11];
-                    for (index = 0; index < num11; index++)
-                    {
-                        buffer2[index] = (byte)~buffer5[index];
-                    }
-                    index = 0;
-                    ushort num18 = 0;
-                    while (index < num11)
-                    {
-                        num18 = (ushort)(num18 + buffer2[index++]);
-                    }
-                    if (num18 != num17)
-                    {
-                        MessageBox.Show("checksum error");
-                    }
-                    else
-                    {
-                        int num4;
-                        byte[] buffer3 = new byte[num11];
-                        int num = 0;
-                        while ((num < buffer2.Length) && !this.StopUpgrade)
-                        {
-                            int num2 = buffer2.Length - num;
-                            if (num2 > num6)
-                            {
-                                num2 = num6;
-                            }
-                            databuf[0] = (byte)(num & 0xff);
-                            databuf[1] = (byte)((num >> 8) & 0xff);
-                            databuf[2] = (byte)(num2 & 0xff);
-                            databuf[3] = (byte)((num2 >> 8) & 0xff);
-                            byte num9 = 0;
-                            int num3 = 0;
-                            while (num3 < num2)
-                            {
-                                num9 = (byte)(num9 + buffer2[num]);
-                                databuf[num3 + 4] = buffer2[num++];
-                                num3++;
-                            }
-                            databuf[num3 + 4] = num9;
-                            num3++;
-                            int num8 = 0;
-                            int num7 = 0;
-                            bool flag = true;
-                            do
-                            {
-                                SGlobalVariable.mUsbCommunication.UpdateRecData = null;
-                                SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_UpdataMC, num6 + 4);
-                                for (num7 = 0; (num7 < 100) && (SGlobalVariable.mUsbCommunication.UpdateRecData == null); num7++)
-                                {
-                                    Thread.Sleep(10);
-                                }
-                                if (SGlobalVariable.mUsbCommunication.UpdateRecData != null)
-                                {
-                                    flag = false;
-                                    int num19 = num - num2;
-                                    num4 = 0;
-                                    while (num4 < num2)
-                                    {
-                                        if (buffer2[num19] != SGlobalVariable.mUsbCommunication.UpdateRecData[num4 + 4])
-                                        {
-                                            flag = true;
-                                        }
-                                        buffer3[num19++] = SGlobalVariable.mUsbCommunication.UpdateRecData[num4 + 4];
-                                        num4++;
-                                    }
-                                }
-                                num8++;
-                            }
-                            while ((num8 < 3) && flag);
-                            if (num8 == 3)
-                            {
-                                MessageBox.Show("update error", "Firmware", MessageBoxButton.OK, MessageBoxImage.Hand);
-                                return;
-                            }
-                            double num5 = ((double)num) / ((double)buffer2.Length);
-                            string txt = ((num5 * 100.0)).ToString("f1") + "%";
-                            this.setbutton(this.Update_button, txt);
-                        }
-                        if (!this.StopUpgrade)
-                        {
-                            for (num4 = 0; num4 < buffer3.Length; num4++)
-                            {
-                                if (buffer3[num4] != buffer2[num4])
-                                {
-                                    MessageBox.Show(((string)base.FindResource("ContentUpdateErr")) + num4.ToString(), "Firmware", MessageBoxButton.OK, MessageBoxImage.Hand);
-                                    num4 = buffer3.Length + 4;
-                                    return;
-                                }
-                            }
-                            databuf[0] = 0xff;
-                            databuf[1] = 0xff;
-                            databuf[2] = 0xff;
-                            databuf[3] = 0xff;
-                            SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_UpdataMC, 4);
-                        }
-                    }
-                }
-            }
-        }
-
+        
+        // On window load
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
-
+            // connection initialization
             SGlobalVariable.mUsbCommunication.Init(this);
             SGlobalVariable.mUsbCommunication.ComIsComplete += new HidUsbCommunication.Evnet_ComComplete(this.Evnet_IsComComplete);
             DispatcherTimer timer = new DispatcherTimer
@@ -599,16 +424,23 @@ namespace H109Tools10
         //    this._contentLoaded = true;
         //}
 
-        //++
+        //Action on UAV connection
         private void timer_Tick(object sender, EventArgs e)
         {
             if (!SGlobalVariable.mUsbCommunication.LinkF)
             {
                 this.LContent.Content = "not connect";
+                this.isConnected = false;
             }
             else
             {
                 this.LContent.Content = "connected";
+                this.isConnected = true;
+
+                if (File.Exists(this.BinFilePatch))
+                {
+                    this.Update_button.IsEnabled = true;
+                }
             }
             this.linkstate_prev = SGlobalVariable.mUsbCommunication.LinkF;
         }
@@ -644,6 +476,7 @@ namespace H109Tools10
 
         private delegate void _setProgreebar(ProgressBar obj, double val);
 
+        //Click on Open File button
         private void B_MC_Update_SFile_Click_1(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
@@ -653,16 +486,21 @@ namespace H109Tools10
             if (dialog.ShowDialog() == true)
             {
                 ((Button)sender).Content = dialog.FileName;
-                this.Update_button.IsEnabled = true;
+                this.BinFilePatch = dialog.FileName.ToString();
+
+                if (this.isConnected)
+                    this.Update_button.IsEnabled = true;
             }
         }
 
+        //Click on update FW button
         private void Update_button_Click(object sender, RoutedEventArgs e)
         {
-            this.BinFilePatch = this.B_MC_Update_SFile.Content.ToString();
+            
             if (!File.Exists(this.BinFilePatch))
             {
                 MessageBox.Show("File not exist");
+                this.Update_button.IsEnabled = false;
             }
             else
             {
@@ -674,6 +512,7 @@ namespace H109Tools10
             }
         }
 
+        //Click on read FW info from UAV
         private void Refresh_FW_Inf_Click(object sender, RoutedEventArgs e)
         {
             byte[] databuf = new byte[1];
