@@ -123,8 +123,14 @@
             HwndSource source = PresentationSource.FromVisual(win) as HwndSource;
             source.AddHook(new HwndSourceHook(this.WndProc));
             this.usb.RegisterHandle(source.Handle);
-            string s = "2628";
+
+            //ProductId
+            string s = "2628";      //v3
+            //string s = "1028";    //v1
+            
+            //VendorId
             string str2 = "1013";
+
             this.usb.OnDeviceRemoved += new EventHandler(this.usb_OnDeviceRemoved);
             this.usb.OnSpecifiedDeviceArrived += new EventHandler(this.usb_OnSpecifiedDeviceArrived);
             this.usb.OnDeviceArrived += new EventHandler(this.usb_OnDeviceArrived);
