@@ -80,41 +80,27 @@ namespace H109Tools10
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //this.Button_Update.IsEnabled = true;
             this.Update_button.IsEnabled = true;
         }
 
-        public void Button_Click_RP(object sender, RoutedEventArgs e)
-        {
-            byte[] databuf = new byte[] { SGlobalVariable.ToolsVersion };
-            SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
-        }
-
-
-        public void Button_Click_WP(object sender, RoutedEventArgs e)
-        {
-            this.UpdateParameterTable();
-            this.WriteParameterToAircraft();
-        }
 
         public void ComSendPack(ref byte[] databuf, byte Cmd, int wLen)
         {
             SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, Cmd, wLen);
         }
 
-        //++
         private void doubleAnimation_Completed(object sender, EventArgs e)
         {
         }
-        //--
-
+        
+        // some actions on USB execution end
         public void Evnet_IsComComplete(byte cmd, byte[] databuf, int datalen)
         {
             if (base.Dispatcher.Thread != Thread.CurrentThread)
             {
                 base.Dispatcher.Invoke(new HidUsbCommunication.Evnet_ComComplete(this.Evnet_IsComComplete), new object[] { cmd, databuf, datalen });
             }
-            else if (cmd == HidUsbCommunication.CI_SetSysPram1)
+            else if (cmd == HidUsbCommunication.CI_SetSysPram1) //set or read UAV system params
             {
                 for (int i = 0; i < (datalen / 4); i++)
                 {
@@ -415,10 +401,9 @@ namespace H109Tools10
             }
             this.linkstate_prev = SGlobalVariable.mUsbCommunication.LinkF;
         }
-        //--
 
 
-
+        //send system parameters to UAV
         public bool WriteParameterToAircraft()
         {
             byte[] destinationArray = new byte[(SGlobalVariable.SysEEPRom.Length * 4) + 1];
@@ -477,6 +462,20 @@ namespace H109Tools10
         {
             byte[] databuf = new byte[1];
             SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_GetMacDesc, 0);
+        }
+
+        //NOT IMPLEMENTED  Click on read parameters from UAV
+        public void Button_Click_RP(object sender, RoutedEventArgs e)
+        {
+            byte[] databuf = new byte[] { SGlobalVariable.ToolsVersion };
+            SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
+        }
+
+        //NOT IMPLEMENTED  Click on send parameters to UAV
+        public void Button_Click_WP(object sender, RoutedEventArgs e)
+        {
+            this.UpdateParameterTable();
+            this.WriteParameterToAircraft();
         }
     }
 }

@@ -33,12 +33,12 @@
         public static byte CI_SetDac = 8;
         public static byte CI_SetKey = 0xc6;
         public static byte CI_SetRcMax = 7;
-        public static byte CI_SetSysPram1 = 10;
+        public static byte CI_SetSysPram1 = 10; //set UAV params
         public static byte CI_SetSysPram2 = 11;
         public static byte CI_SetSysPram3 = 15;
         public static byte CI_SysInf = 0x13;
         public static byte CI_TRst = 3;
-        public static byte CI_UpdataMC = 0xc5;
+        public static byte CI_UpdataMC = 0xc5;  //upload FW to UAV
         public byte[] ComBuf_R;
         public byte ComCmd;
         public int ComDataLen;
