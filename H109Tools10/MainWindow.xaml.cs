@@ -381,48 +381,19 @@ namespace H109Tools10
             int num15 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ASPid];
         }
 
+        public void UpdateParameterTable()
+        {
+            uint[] numArray = new uint[0];
+            SGlobalVariable.EP_ARPidX_P = (int)numArray[0];
+            SGlobalVariable.EP_ARPidY_P = (int)numArray[1];
+            SGlobalVariable.EP_ARPidZ_P = (int)numArray[2];
+            SGlobalVariable.EP_SafeAltitude = (byte)numArray[3];
+            SGlobalVariable.EP_NavMaxSpeed = (byte)numArray[4];
+            SGlobalVariable.EP_AltitudeLimit = (byte)numArray[5];
+            SGlobalVariable.EP_RadiusLimit = (byte)numArray[6];
+            SGlobalVariable.EP_AlarmVol = (byte)numArray[7];
+        }
 
-
-        //[GeneratedCode("PresentationBuildTasks", "4.0.0.0"), DebuggerNonUserCode]
-        //public void InitializeComponent()
-        //{
-        //    if (!this._contentLoaded)
-        //    {
-        //        this._contentLoaded = true;
-        //        Uri resourceLocator = new Uri("/H109Tools10;component/mainwindow.xaml", UriKind.Relative);
-        //        Application.LoadComponent(this, resourceLocator);
-        //    }
-        //}
-
-        //[GeneratedCode("PresentationBuildTasks", "4.0.0.0"), DebuggerNonUserCode, EditorBrowsable(EditorBrowsableState.Never)]
-        //void IComponentConnector.Connect(int connectionId, object target)
-        //{
-        //    switch (connectionId)
-        //    {
-        //        case 1:
-        //            this.B_MC_Update_SFile = (Button)target;
-        //            this.B_MC_Update_SFile.Click += new RoutedEventHandler(this.B_MC_Update_SFile_Click);
-        //            return;
-
-        //        case 2:
-        //            this.Button_Update = (Button)target;
-        //            this.Button_Update.Click += new RoutedEventHandler(this.Button_Click_Update);
-        //            return;
-
-        //        case 3:
-        //            ((Button)target).Click += new RoutedEventHandler(this.Button_Click_Refresh_Inf);
-        //            return;
-
-        //        case 4:
-        //            this.fwinf = (Label)target;
-        //            return;
-
-        //        case 5:
-        //            this.LContent = (Label)target;
-        //            return;
-        //    }
-        //    this._contentLoaded = true;
-        //}
 
         //Action on UAV connection
         private void timer_Tick(object sender, EventArgs e)
@@ -446,18 +417,7 @@ namespace H109Tools10
         }
         //--
 
-        public void UpdateParameterTable()
-        {
-            uint[] numArray = new uint[0];
-            SGlobalVariable.EP_ARPidX_P = (int)numArray[0];
-            SGlobalVariable.EP_ARPidY_P = (int)numArray[1];
-            SGlobalVariable.EP_ARPidZ_P = (int)numArray[2];
-            SGlobalVariable.EP_SafeAltitude = (byte)numArray[3];
-            SGlobalVariable.EP_NavMaxSpeed = (byte)numArray[4];
-            SGlobalVariable.EP_AltitudeLimit = (byte)numArray[5];
-            SGlobalVariable.EP_RadiusLimit = (byte)numArray[6];
-            SGlobalVariable.EP_AlarmVol = (byte)numArray[7];
-        }
+
 
         public bool WriteParameterToAircraft()
         {

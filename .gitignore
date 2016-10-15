@@ -1,2 +1,10 @@
 H109Tools10/bin/*
 H109Tools10/obj/*
+vs/*
+.gitignore
+*.suo
+
+
+.vs/H109Tools10/v14/.suo
+.gitignore
+.vs/H109Tools10/v14/.suo
