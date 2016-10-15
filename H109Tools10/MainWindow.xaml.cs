@@ -480,12 +480,14 @@ namespace H109Tools10
 
             paramStr[84] = "YCDamper   (sbyte) GetByte(0x7e): " + SGlobalVariable.EP_YCDamper.ToString();
 
-            string outStr = "";
+            //string outStr = "";
+            this.listBox.Items.Clear();
             foreach (string s in paramStr)
             {
-                outStr = outStr + "/n";
+                //outStr = outStr + s + "\n";
+                this.listBox.Items.Add(s);
             }
-
+            this.listBox.Visibility = Visibility.Visible;
 
         }
 
@@ -599,6 +601,11 @@ namespace H109Tools10
         {
             this.UpdateParameterTable();
             this.WriteParameterToAircraft();
+        }
+
+        private void Show_all_params_Click(object sender, RoutedEventArgs e)
+        {
+            ShowAllParameter();
         }
     }
 }
