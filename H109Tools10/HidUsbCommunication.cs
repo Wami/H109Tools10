@@ -25,7 +25,7 @@
         public static byte CI_Debug_String = 2;
         public static byte CI_DebugButton1 = 14;
         public static byte CI_GetAdcStr = 12;
-        public static byte CI_GetMacDesc = 13;
+        public static byte CI_GetMacDesc = 13; //get FW version from UAV
         public static byte CI_RCVal = 0x10;
         public static byte CI_RestSenser = 0x11;
         public static byte CI_RStat = 4;
@@ -72,16 +72,20 @@
             {
                 str2 = str2 + $"{this.ComBuf_R[i]:X}" + " ";
             }
-            if (this.ComCmd == CI_GetMacDesc)
+            if (this.ComCmd == CI_GetMacDesc) //get FW version from UAV
             {
+                // V HwNumber.Manufacturer.SwNumber
                 SGlobalVariable.HwNumber = this.ComBuf_R[0];
                 SGlobalVariable.Manufacturer = this.ComBuf_R[1];
                 SGlobalVariable.SwNumber = this.ComBuf_R[2];
+
                 SGlobalVariable.IdNumber = BitConverter.ToUInt32(this.ComBuf_R, 4);
                 SGlobalVariable.FlightTime = BitConverter.ToUInt32(this.ComBuf_R, 8);
+
                 SGlobalVariable.FlightDesString = Encoding.Default.GetString(this.ComBuf_R, 12, this.ComDataLen);
                 SGlobalVariable.FlightDesString = SGlobalVariable.FlightDesString.Remove(SGlobalVariable.FlightDesString.IndexOf('\0'));
-                SGlobalVariable.FlightDesString = SGlobalVariable.FlightDesString + " V" + SGlobalVariable.HwNumber.ToString() + "." + SGlobalVariable.Manufacturer.ToString() + "." + SGlobalVariable.SwNumber.ToString();
+                SGlobalVariable.FlightDesString = SGlobalVariable.FlightDesString + " V" + SGlobalVariable.HwNumber.ToString() + "." + SGlobalVariable.Manufacturer.ToString() + "." 
+                    + SGlobalVariable.SwNumber.ToString() + " IdNumber:" + SGlobalVariable.IdNumber.ToString() + " FlightTime:" + SGlobalVariable.FlightTime.ToString();
                 if (this.DiscribeStringIsRec != null)
                 {
                     this.DiscribeStringIsRec(SGlobalVariable.FlightDesString, CI_GetMacDesc);
@@ -102,7 +106,7 @@
                     this.DebugDataIsRec(this.ComBuf_R, this.ComDataLen);
                 }
             }
-            else if (this.ComCmd == CI_UpdataMC)
+            else if (this.ComCmd == CI_UpdataMC) //upload FW to UAV
             {
                 this.UpdateRecData = new byte[this.ComBuf_R.Length];
                 Array.Copy(this.ComBuf_R, 0, this.UpdateRecData, 0, this.ComDataLen);
