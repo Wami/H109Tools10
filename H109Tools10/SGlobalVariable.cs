@@ -6,6 +6,8 @@
 
     public class SGlobalVariable
     {
+        public static bool isDebug = true;
+
         //++not implemented
         public static byte CCodeRestIMU = 0x13;
         public static byte CCodeSetAccMiddle = 0x16;
