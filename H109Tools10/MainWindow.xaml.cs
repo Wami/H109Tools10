@@ -339,6 +339,29 @@ namespace H109Tools10
             };
             timer.Tick += new EventHandler(this.timer_Tick);
 
+            this.AltLimitD.Visibility = Visibility.Hidden;
+            this.AltLimitN.Visibility = Visibility.Hidden;
+            this.AltLimitP.Visibility = Visibility.Hidden;
+
+            this.RadiusLimitN.Visibility = Visibility.Hidden;
+            this.RadiusLimitD.Visibility = Visibility.Hidden;
+            this.RadiusLimitP.Visibility = Visibility.Hidden;
+
+            this.ReturnAltitudeN.Visibility = Visibility.Hidden;
+            this.ReturnAltitudeD.Visibility = Visibility.Hidden;
+            this.ReturnAltitudeP.Visibility = Visibility.Hidden;
+
+            this.NavMaxSpeedN.Visibility = Visibility.Hidden;
+            this.NavMaxSpeedD.Visibility = Visibility.Hidden;
+            this.NavMaxSpeedP.Visibility = Visibility.Hidden;
+
+            this.AlarmVolN.Visibility = Visibility.Hidden;
+            this.AlarmVolD.Visibility = Visibility.Hidden;
+            this.AlarmVolP.Visibility = Visibility.Hidden;
+
+            this.LandingVolN.Visibility = Visibility.Hidden;
+            this.LandingVolD.Visibility = Visibility.Hidden;
+            this.LandingVolP.Visibility = Visibility.Hidden;
 
             //debug code
             if (SGlobalVariable.isDebug)
@@ -395,6 +418,7 @@ namespace H109Tools10
 
             if (this.listBox.Visibility != Visibility.Visible)
             {
+                
                 string[] paramStr = new string[] {
                 "AlarmVol         GetByte(0x8f): " + SGlobalVariable.EP_AlarmVol.ToString(),
                 "LandingVol       GetByte(0x90): " + SGlobalVariable.EP_LandingVol.ToString(),
@@ -520,11 +544,15 @@ namespace H109Tools10
                 this.listBox.Visibility = Visibility.Visible;
                 this.Show_all_params.Content = "Hide all params";
 
+                this.Edit_params.IsEnabled = false;
+
             }
             else
             {
                 this.listBox.Visibility = Visibility.Collapsed;
                 this.Show_all_params.Content = "Show all params";
+    
+                this.Edit_params.IsEnabled = true;
             }
 
         }
@@ -542,6 +570,35 @@ namespace H109Tools10
             SGlobalVariable.EP_RadiusLimit = (byte)numArray[6];
             SGlobalVariable.EP_AlarmVol = (byte)numArray[7];
         }
+
+        private void SetParamVisibility(Visibility v)
+        {
+            this.AltLimitD.Visibility = v;
+            this.AltLimitN.Visibility = v;
+            this.AltLimitP.Visibility = v;
+
+            this.RadiusLimitN.Visibility = v;
+            this.RadiusLimitD.Visibility = v;
+            this.RadiusLimitP.Visibility = v;
+
+            this.ReturnAltitudeN.Visibility = v;
+            this.ReturnAltitudeD.Visibility = v;
+            this.ReturnAltitudeP.Visibility = v;
+
+            this.NavMaxSpeedN.Visibility = v;
+            this.NavMaxSpeedD.Visibility = v;
+            this.NavMaxSpeedP.Visibility = v;
+
+            this.AlarmVolN.Visibility = v;
+            this.AlarmVolD.Visibility = v;
+            this.AlarmVolP.Visibility = v;
+
+            this.LandingVolN.Visibility = v;
+            this.LandingVolD.Visibility = v;
+            this.LandingVolP.Visibility = v;
+
+        }
+
 
 
         //Action on UAV connection
@@ -627,23 +684,10 @@ namespace H109Tools10
             SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_GetMacDesc, 0);
         }
 
-        //NOT IMPLEMENTED  Click on read parameters from UAV
-        public void Button_Click_RP(object sender, RoutedEventArgs e)
-        {
-            byte[] databuf = new byte[] { SGlobalVariable.ToolsVersion };
-            SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
-        }
-
-        //NOT IMPLEMENTED  Click on send parameters to UAV
-        public void Button_Click_WP(object sender, RoutedEventArgs e)
-        {
-            this.UpdateParameterTable();
-            this.WriteParameterToAircraft();
-        }
-
+        //Click on Show_all_params
         private void Show_all_params_Click(object sender, RoutedEventArgs e)
         {
-            if(!SGlobalVariable.isDebug)
+            if(!SGlobalVariable.isDebug) //if not debug get data from UAV
             {
                 byte[] databuf = new byte[] { SGlobalVariable.ToolsVersion };
                 SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
@@ -652,17 +696,142 @@ namespace H109Tools10
             ShowAllParameter();
         }
 
-
+        //Click on Edit Params
         private void Edit_params_Click(object sender, RoutedEventArgs e)
         {
 
-            this.Flash_params.Visibility = Visibility.Visible;
+            if (this.Flash_params.Visibility != Visibility.Visible)
+            {
+
+                if (!SGlobalVariable.isDebug) //if not debug get data from UAV
+                {
+                    byte[] databuf = new byte[] { SGlobalVariable.ToolsVersion };
+                    SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
+
+                }
+
+                this.Flash_params.Visibility = Visibility.Visible;
+
+                this.Edit_params.Content = "Close edit params";
+
+                this.AltLimitP.Text = SGlobalVariable.EP_AltitudeLimit.ToString();
+                this.RadiusLimitP.Text = SGlobalVariable.EP_RadiusLimit.ToString();
+                this.ReturnAltitudeP.Text = SGlobalVariable.EP_SafeAltitude.ToString();
+                this.NavMaxSpeedP.Text = SGlobalVariable.EP_NavMaxSpeed.ToString();
+                this.AlarmVolP.Text = SGlobalVariable.EP_AlarmVol.ToString();
+                this.LandingVolP.Text = SGlobalVariable.EP_LandingVol.ToString();
+
+                SetParamVisibility(Visibility.Visible);
+
+                this.Show_all_params.IsEnabled = false;
+
+            }
+            else
+            {
+                this.Flash_params.Visibility = Visibility.Hidden;
+                this.Edit_params.Content = "Edit params";
+
+                SetParamVisibility(Visibility.Hidden);
+
+                this.Show_all_params.IsEnabled = true;
+            }
+            
         }
 
+        //Click on send parameters to UAV
         private void Flash_params_Click(object sender, RoutedEventArgs e)
         {
+            bool haveErr = false;
 
+            //SGlobalVariable.EP_ARPidX_P = (int)numArray[0];
+            //SGlobalVariable.EP_ARPidY_P = (int)numArray[1];
+            //SGlobalVariable.EP_ARPidZ_P = (int)numArray[2];
+            //SGlobalVariable.EP_SafeAltitude = (byte)numArray[3];
+            //SGlobalVariable.EP_NavMaxSpeed = (byte)numArray[4];
+            //SGlobalVariable.EP_AltitudeLimit = (byte)numArray[5];
+            //SGlobalVariable.EP_RadiusLimit = (byte)numArray[6];
+            //SGlobalVariable.EP_AlarmVol = (byte)numArray[7];
+
+            int val;
+            if (int.TryParse(this.AltLimitP.Text, out val))
+            {
+                if (val > 255 || val < 0)
+                    { val = 0; }
+                SGlobalVariable.EP_AltitudeLimit = (byte)val;
+            }
+            else
+            {
+                MessageBox.Show("Error parsing Alt Limit");
+                haveErr = true;
+            }
+
+            if (int.TryParse(this.RadiusLimitP.Text, out val))
+            {
+                if (val > 255 || val < 0)
+                { val = 0; }
+                SGlobalVariable.EP_RadiusLimit = (byte)val;
+            }
+            else
+            {
+                MessageBox.Show("Error parsing Radius Limit");
+                haveErr = true;
+            }
+
+            if (int.TryParse(this.ReturnAltitudeP.Text, out val))
+            {
+                if (val > 255 || val < 0)
+                { val = 0; }
+                SGlobalVariable.EP_SafeAltitude = (byte)val;
+            }
+            else
+            {
+                MessageBox.Show("Error parsing Return Altitude");
+                haveErr = true;
+            }
+
+            if (int.TryParse(this.NavMaxSpeedP.Text, out val))
+            {
+                if (val > 255 || val < 0)
+                { val = 0; }
+                SGlobalVariable.EP_NavMaxSpeed = (byte)val;
+            }
+            else
+            {
+                MessageBox.Show("Error parsing Nav Max Speed");
+                haveErr = true;
+            }
+
+            if (int.TryParse(this.AlarmVolP.Text, out val))
+            {
+                if (val > 255 || val < 0)
+                { val = 0; }
+                SGlobalVariable.EP_AlarmVol = (byte)val;
+            }
+            else
+            {
+                MessageBox.Show("Error parsing Alarm Volt");
+                haveErr = true;
+            }
+
+            if (int.TryParse(this.LandingVolP.Text, out val))
+            {
+                if (val > 255 || val < 0)
+                { val = 0; }
+                SGlobalVariable.EP_LandingVol = (byte)val;
+            }
+            else
+            {
+                MessageBox.Show("Error parsing Landing Volt");
+                haveErr = true;
+            }
+
+
+            if(!haveErr && !SGlobalVariable.isDebug)
+            {
+                this.WriteParameterToAircraft();
+            }
         }
+
 
     }
 }

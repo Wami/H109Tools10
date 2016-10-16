@@ -16,6 +16,24 @@
         <ListBox x:Name="listBox" Margin="157,104,10,10" Visibility="Collapsed" />
         <Button x:Name="Edit_params" Content="Edit params" HorizontalAlignment="Left" Margin="28,145,0,0" VerticalAlignment="Top" Width="100" Click="Edit_params_Click"/>
         <Button x:Name="Flash_params" Content="Save params" HorizontalAlignment="Left" Margin="28,188,0,0" VerticalAlignment="Top" Width="100" Click="Flash_params_Click" Visibility="Hidden"/>
+        <Label x:Name="AltLimitN" Content="Altitude limit" HorizontalAlignment="Left" Margin="155,113,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="AltLimitD" Content="0-255, 0 - no limit" HorizontalAlignment="Left" Margin="308,113,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="AltLimitP" HorizontalAlignment="Left" Height="23" Margin="247,113,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
+        <Label x:Name="RadiusLimitN" Content="Radius limit" HorizontalAlignment="Left" Margin="155,145,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="RadiusLimitD" Content="0-255, 0 - no limit" HorizontalAlignment="Left" Margin="308,145,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="RadiusLimitP" HorizontalAlignment="Left" Height="23" Margin="247,145,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
+        <Label x:Name="ReturnAltitudeN" Content="Return altitude" HorizontalAlignment="Left" Margin="155,174,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ReturnAltitudeD" Content="0-255" HorizontalAlignment="Left" Margin="308,174,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="ReturnAltitudeP" HorizontalAlignment="Left" Height="23" Margin="247,174,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
+        <Label x:Name="NavMaxSpeedN" Content="Nav max speed" HorizontalAlignment="Left" Margin="155,202,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="NavMaxSpeedD" Content="0-255" HorizontalAlignment="Left" Margin="308,202,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="NavMaxSpeedP" HorizontalAlignment="Left" Height="23" Margin="247,202,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
+        <Label x:Name="AlarmVolN" Content="Alarm voltage" HorizontalAlignment="Left" Margin="155,230,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="AlarmVolD" Content="0-255" HorizontalAlignment="Left" Margin="308,230,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="AlarmVolP" HorizontalAlignment="Left" Height="23" Margin="247,230,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
+        <Label x:Name="LandingVolN" Content="Landing voltage" HorizontalAlignment="Left" Margin="155,253,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LandingVolD" Content="0-255" HorizontalAlignment="Left" Margin="308,253,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="LandingVolP" HorizontalAlignment="Left" Height="23" Margin="247,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
 
     </Grid>
 </Window>
