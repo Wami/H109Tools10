@@ -643,7 +643,26 @@ namespace H109Tools10
 
         private void Show_all_params_Click(object sender, RoutedEventArgs e)
         {
+            if(!SGlobalVariable.isDebug)
+            {
+                byte[] databuf = new byte[] { SGlobalVariable.ToolsVersion };
+                SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
+
+            }
             ShowAllParameter();
         }
+
+
+        private void Edit_params_Click(object sender, RoutedEventArgs e)
+        {
+
+            this.Flash_params.Visibility = Visibility.Visible;
+        }
+
+        private void Flash_params_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }
