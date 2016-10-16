@@ -369,116 +369,134 @@ namespace H109Tools10
 
         public void ShowAllParameter()
         {
-            string[] paramStr = new string[85];
-            paramStr[0] = "AALP             GetByte(0x74): " + SGlobalVariable.EP_AALP.ToString();
-            paramStr[1] = "AccLevelX (sbyte)GetByte(0x30): " + SGlobalVariable.EP_AccLevelX.ToString();
-            paramStr[2] = "AccLevelY (sbyte)GetByte(0x31): " + SGlobalVariable.EP_AccLevelY.ToString();
 
-            paramStr[3] = "AccMiddleX          EEPRom[13]: " + SGlobalVariable.EP_AccMiddleX.ToString();
-            paramStr[4] = "AccMiddleY          EEPRom[14]: " + SGlobalVariable.EP_AccMiddleY.ToString();
-            paramStr[5] = "AccMiddleZ          EEPRom[15]: " + SGlobalVariable.EP_AccMiddleZ.ToString();
+            string eepromFileName = ".\\H501S.eeprom.hbs";
+            if (File.Exists(eepromFileName))
+            {
 
-            paramStr[6] = "AccScaleX         EEPRom[0x10]: " + SGlobalVariable.EP_AccScaleX.ToString();
-            paramStr[7] = "AccScaleY         EEPRom[0x11]: " + SGlobalVariable.EP_AccScaleY.ToString();
-            paramStr[8] = "AccScaleZ         EEPRom[0x12]: " + SGlobalVariable.EP_AccScaleZ.ToString();
+                byte[] f_data = File.ReadAllBytes(eepromFileName);
+                int datalen = f_data.Length;
 
-            paramStr[9] = "AF_C1             GetByte(100): " + SGlobalVariable.EP_AF_C1.ToString();
-            paramStr[10] = "AF_C2            GetByte(0x65): " + SGlobalVariable.EP_AF_C2.ToString();
-            paramStr[11] = "AF_C3            GetByte(0x66): " + SGlobalVariable.EP_AF_C3.ToString();
-            paramStr[12] = "AF_C4            GetByte(0x67): " + SGlobalVariable.EP_AF_C4.ToString();
+                for (int i = 0; i < (datalen / 4); i++)
+                {
+                    SGlobalVariable.SysEEPRom[i] = BitConverter.ToInt32(f_data, i * 4);
+                }
+            }
 
-            paramStr[13] = "AlarmVol         GetByte(0x8f): " + SGlobalVariable.EP_AlarmVol.ToString();
-            paramStr[14] = "AltitudeLimit     GetByte(150): " + SGlobalVariable.EP_AltitudeLimit.ToString();
+            string[] paramStr = new string[] {
 
-            paramStr[15] = "ARPidX_D EEPRom [EP_ARPidX] >> 20) & 0x3ff: " + SGlobalVariable.EP_ARPidX_D.ToString();
-            paramStr[16] = "ARPidX_I EEPRom [EP_ARPidX] >> 10) & 0x3ff: " + SGlobalVariable.EP_ARPidX_I.ToString();
-            paramStr[17] = "ARPidX_P EEPRom [EP_ARPidX] >> 00) & 0x3ff: " + SGlobalVariable.EP_ARPidX_P.ToString();
+            "AlarmVol         GetByte(0x8f): " + SGlobalVariable.EP_AlarmVol.ToString(),
+            "LandingVol       GetByte(0x90): " + SGlobalVariable.EP_LandingVol.ToString(),
+            "",
 
-            paramStr[18] = "ARPidY_D EEPRom [EP_ARPidY] >> 20) & 0x3ff: " + SGlobalVariable.EP_ARPidY_D.ToString();
-            paramStr[19] = "ARPidY_I EEPRom [EP_ARPidY] >> 10) & 0x3ff: " + SGlobalVariable.EP_ARPidY_I.ToString();
-            paramStr[20] = "ARPidY_P EEPRom [EP_ARPidY] >> 00) & 0x3ff: " + SGlobalVariable.EP_ARPidY_P.ToString();
+            "RadiusLimit      GetByte(0x95): " + SGlobalVariable.EP_RadiusLimit.ToString(),
+            "AltitudeLimit     GetByte(150): " + SGlobalVariable.EP_AltitudeLimit.ToString(), 
+            "SafeAltitude     GetByte(0x94): " + SGlobalVariable.EP_SafeAltitude.ToString(),
+            "NavMaxSpeed      GetByte(0x91): " + SGlobalVariable.EP_NavMaxSpeed.ToString(),
+            "",
 
-            paramStr[21] = "ARPidZ_D EEPRom [EP_ARPidZ] >> 20) & 0x3ff: " + SGlobalVariable.EP_ARPidZ_D.ToString();
-            paramStr[22] = "ARPidZ_I EEPRom [EP_ARPidZ] >> 10) & 0x3ff: " + SGlobalVariable.EP_ARPidZ_I.ToString();
-            paramStr[23] = "ARPidZ_P EEPRom [EP_ARPidZ] >> 00) & 0x3ff: " + SGlobalVariable.EP_ARPidZ_P.ToString();
+            "MoveAccLmt       GetByte(0x8d): " + SGlobalVariable.EP_MoveAccLmt.ToString(),
+            "HSpeedCtr        GetByte(0x92): " + SGlobalVariable.EP_HSpeedCtr.ToString(),
+            "HAccelerateCtr   GetByte(0x93): " + SGlobalVariable.EP_HAccelerateCtr.ToString(),
+            "MotorOutBais     GetByte(0x97): " + SGlobalVariable.EP_MotorOutBais.ToString(),
+            "FlightTime        EEPRom[0x17]: " + SGlobalVariable.EP_FlightTime.ToString(),
+            "Manufacturer     GetByte(0x60): " + SGlobalVariable.EP_Manufacturer.ToString(),
+            "HardwareEdition  GetByte(0x61): " + SGlobalVariable.EP_HardwareEdition.ToString(),
+            "DevKey            EEPRom[0x16]: " + SGlobalVariable.EP_DevKey.ToString(),
+            "FType_FS         GetByte(0x8e): " + SGlobalVariable.EP_FType_FS.ToString(),
+            "",
 
-            paramStr[24] = "BalancePid_P EEPRom[EP_BalancePid] & 0x3ff): " + SGlobalVariable.EP_BalancePid_P.ToString();
+            "AALP             GetByte(0x74): " + SGlobalVariable.EP_AALP.ToString(),
+            "AccLevelX (sbyte)GetByte(0x30): " + SGlobalVariable.EP_AccLevelX.ToString(),
+            "AccLevelY (sbyte)GetByte(0x31): " + SGlobalVariable.EP_AccLevelY.ToString(),
 
-            paramStr[25] = "DevKey            EEPRom[0x16]: " + SGlobalVariable.EP_DevKey.ToString();
-            paramStr[26] = "FlightTime        EEPRom[0x17]: " + SGlobalVariable.EP_FlightTime.ToString();
-            paramStr[27] = "FType_FS         GetByte(0x8e): " + SGlobalVariable.EP_FType_FS.ToString();
+            "AccMiddleX          EEPRom[13]: " + SGlobalVariable.EP_AccMiddleX.ToString(),
+            "AccMiddleY          EEPRom[14]: " + SGlobalVariable.EP_AccMiddleY.ToString(),
+            "AccMiddleZ          EEPRom[15]: " + SGlobalVariable.EP_AccMiddleZ.ToString(),
 
-            paramStr[28] = "GpsCtrD          GetByte(0x5e): " + SGlobalVariable.EP_GpsCtrD.ToString();
-            paramStr[29] = "GpsCtrI          GetByte(0x5d): " + SGlobalVariable.EP_GpsCtrI.ToString();
-            paramStr[30] = "GpsCtrP          GetByte(0x5c): " + SGlobalVariable.EP_GpsCtrP.ToString();
+            "AccScaleX         EEPRom[0x10]: " + SGlobalVariable.EP_AccScaleX.ToString(),
+            "AccScaleY         EEPRom[0x11]: " + SGlobalVariable.EP_AccScaleY.ToString(),
+            "AccScaleZ         EEPRom[0x12]: " + SGlobalVariable.EP_AccScaleZ.ToString(),
 
-            paramStr[31] = "GpsSpeedPid_P SysEEPRom[EP_GpsSpeedPid] & 0x3ff: " + SGlobalVariable.EP_GpsSpeedPid_P.ToString();
-            paramStr[32] = "GyroBiasT         SysEEPRom[4]: " + SGlobalVariable.EP_GyroBiasT.ToString();
-            paramStr[33] = "GyroBiasX         SysEEPRom[1]: " + SGlobalVariable.EP_GyroBiasX.ToString();
-            paramStr[34] = "GyroBiasZ         SysEEPRom[3]: " + SGlobalVariable.EP_GyroBiasZ.ToString();
-            paramStr[35] = "GyroOrthZx        SysEEPRom[5]: " + SGlobalVariable.EP_GyroOrthZx.ToString();
-            paramStr[36] = "GyroOrthZy        SysEEPRom[6]: " + SGlobalVariable.EP_GyroOrthZy.ToString();
-            paramStr[37] = "GyroScaleX        SysEEPRom[10]: " + SGlobalVariable.EP_GyroScaleX.ToString();
-            paramStr[38] = "GyroScaleY        SysEEPRom[11]: " + SGlobalVariable.EP_GyroScaleY.ToString();
-            paramStr[39] = "GyroScaleZ        SysEEPRom[12]: " + SGlobalVariable.EP_GyroScaleZ.ToString();
+            "ARPidX_D EEPRom[EP_ARPidX]>>20)&0x3ff: " + SGlobalVariable.EP_ARPidX_D.ToString(),
+            "ARPidX_I EEPRom[EP_ARPidX]>>10)&0x3ff: " + SGlobalVariable.EP_ARPidX_I.ToString(),
+            "ARPidX_P EEPRom[EP_ARPidX]>>00)&0x3ff: " + SGlobalVariable.EP_ARPidX_P.ToString(),
 
-            paramStr[40] = "GyroTempDriftX     SysEEPRom[7]: " + SGlobalVariable.EP_GyroTempDriftX.ToString();
-            paramStr[41] = "GyroTempDriftY     SysEEPRom[8]: " + SGlobalVariable.EP_GyroTempDriftY.ToString();
-            paramStr[42] = "GyroTempDriftZ     SysEEPRom[9]: " + SGlobalVariable.EP_GyroTempDriftZ.ToString();
+            "ARPidY_D EEPRom[EP_ARPidY]>>20)&0x3ff: " + SGlobalVariable.EP_ARPidY_D.ToString(),
+            "ARPidY_I EEPRom[EP_ARPidY]>>10)&0x3ff: " + SGlobalVariable.EP_ARPidY_I.ToString(),
+            "ARPidY_P EEPRom[EP_ARPidY]>>00)&0x3ff: " + SGlobalVariable.EP_ARPidY_P.ToString(),
 
-            paramStr[43] = "HAccelerateCtr    GetByte(0x93): " + SGlobalVariable.EP_HAccelerateCtr.ToString();
-            paramStr[44] = "HardwareEdition   GetByte(0x61): " + SGlobalVariable.EP_HardwareEdition.ToString();
-            paramStr[45] = "HSpeedCtr         GetByte(0x92): " + SGlobalVariable.EP_HSpeedCtr.ToString();
-            paramStr[46] = "LandingVol        GetByte(0x90): " + SGlobalVariable.EP_LandingVol.ToString();
-            paramStr[47] = "MagMidX            EEPRom[0x13]: " + SGlobalVariable.EP_MagMidX.ToString();
-            paramStr[48] = "MagMidY            EEPRom[0x14]: " + SGlobalVariable.EP_MagMidY.ToString();
-            paramStr[49] = "MagMidZ            EEPRom[0x15]: " + SGlobalVariable.EP_MagMidZ.ToString();
-            paramStr[50] = "Manufacturer      GetByte(0x60): " + SGlobalVariable.EP_Manufacturer.ToString();
-            paramStr[51] = "MotorOutBais      GetByte(0x97): " + SGlobalVariable.EP_MotorOutBais.ToString();
+            "ARPidZ_D EEPRom[EP_ARPidZ]>>20)&0x3ff: " + SGlobalVariable.EP_ARPidZ_D.ToString(),
+            "ARPidZ_I EEPRom[EP_ARPidZ]>>10)&0x3ff: " + SGlobalVariable.EP_ARPidZ_I.ToString(),
+            "ARPidZ_P EEPRom[EP_ARPidZ]>>00)&0x3ff: " + SGlobalVariable.EP_ARPidZ_P.ToString(),
 
-            paramStr[52] = "MoveAccLmt       GetByte(0x8d): " + SGlobalVariable.EP_MoveAccLmt.ToString();
-            paramStr[53] = "NavMaxSpeed      GetByte(0x91): " + SGlobalVariable.EP_NavMaxSpeed.ToString();
+            "BalancePid_P EEPRom[EP_BalancePid] & 0x3ff): " + SGlobalVariable.EP_BalancePid_P.ToString(),
 
-            paramStr[54] = "PCDamper (sbyte) GetByte(0x7c): " + SGlobalVariable.EP_PCDamper.ToString();
-            paramStr[55] = "PressureCtrP      GetByte(140): " + SGlobalVariable.EP_PressureCtrP.ToString();
-            paramStr[56] = "RadiusLimit      GetByte(0x95): " + SGlobalVariable.EP_RadiusLimit.ToString();
+            "GpsCtrD           GetByte(0x5e): " + SGlobalVariable.EP_GpsCtrD.ToString(),
+            "GpsCtrI           GetByte(0x5d): " + SGlobalVariable.EP_GpsCtrI.ToString(),
+            "GpsCtrP           GetByte(0x5c): " + SGlobalVariable.EP_GpsCtrP.ToString(),
 
-            paramStr[57] = "RC_CHMiddle_P (sbyte) GetByte(0): " + SGlobalVariable.EP_RC_CHMiddle_P.ToString();
-            paramStr[58] = "RC_CHMiddle_R (sbyte) GetByte(1): " + SGlobalVariable.EP_RC_CHMiddle_R.ToString();
-            paramStr[59] = "RC_CHMiddle_Y (sbyte) GetByte(2): " + SGlobalVariable.EP_RC_CHMiddle_Y.ToString();
-            paramStr[60] = "RC_ThrMax     (byte) GetWord(5): " + SGlobalVariable.EP_RC_ThrMax.ToString();
-            paramStr[61] = "RC_ThrMin            GetWord(4): " + SGlobalVariable.EP_RC_ThrMin.ToString();
+            "GpsSpeedPid_P SysEEPRom[EP_GpsSpeedPid] & 0x3ff: " + SGlobalVariable.EP_GpsSpeedPid_P.ToString(),
+            "GyroBiasT          SysEEPRom[4]: " + SGlobalVariable.EP_GyroBiasT.ToString(),
+            "GyroBiasX          SysEEPRom[1]: " + SGlobalVariable.EP_GyroBiasX.ToString(),
+            "GyroBiasZ          SysEEPRom[3]: " + SGlobalVariable.EP_GyroBiasZ.ToString(),
+            "GyroOrthZx         SysEEPRom[5]: " + SGlobalVariable.EP_GyroOrthZx.ToString(),
+            "GyroOrthZy         SysEEPRom[6]: " + SGlobalVariable.EP_GyroOrthZy.ToString(),
+            "GyroScaleX        SysEEPRom[10]: " + SGlobalVariable.EP_GyroScaleX.ToString(),
+            "GyroScaleY        SysEEPRom[11]: " + SGlobalVariable.EP_GyroScaleY.ToString(),
+            "GyroScaleZ        SysEEPRom[12]: " + SGlobalVariable.EP_GyroScaleZ.ToString(),
+
+            "GyroTempDriftX     SysEEPRom[7]: " + SGlobalVariable.EP_GyroTempDriftX.ToString(),
+            "GyroTempDriftY     SysEEPRom[8]: " + SGlobalVariable.EP_GyroTempDriftY.ToString(),
+            "GyroTempDriftZ     SysEEPRom[9]: " + SGlobalVariable.EP_GyroTempDriftZ.ToString(),
+          
+            "MagMidX            EEPRom[0x13]: " + SGlobalVariable.EP_MagMidX.ToString(),
+            "MagMidY            EEPRom[0x14]: " + SGlobalVariable.EP_MagMidY.ToString(),
+            "MagMidZ            EEPRom[0x15]: " + SGlobalVariable.EP_MagMidZ.ToString(),
+
+            "RCDamper   (sbyte) GetByte(0x7d): " + SGlobalVariable.EP_RCDamper.ToString(),
+            "PCDamper   (sbyte) GetByte(0x7c): " + SGlobalVariable.EP_PCDamper.ToString(),
+            "YCDamper   (sbyte) GetByte(0x7e): " + SGlobalVariable.EP_YCDamper.ToString(),
+            "PressureCtrP        GetByte(140): " + SGlobalVariable.EP_PressureCtrP.ToString(),
+            
+            "RC_CHMiddle_P (sbyte) GetByte(0): " + SGlobalVariable.EP_RC_CHMiddle_P.ToString(),
+            "RC_CHMiddle_R (sbyte) GetByte(1): " + SGlobalVariable.EP_RC_CHMiddle_R.ToString(),
+            "RC_CHMiddle_Y (sbyte) GetByte(2): " + SGlobalVariable.EP_RC_CHMiddle_Y.ToString(),
+            "RC_ThrMax      (byte) GetWord(5): " + SGlobalVariable.EP_RC_ThrMax.ToString(),
+            "RC_ThrMin             GetWord(4): " + SGlobalVariable.EP_RC_ThrMin.ToString(),
+
+            "XYSF_C1            GetByte(0x68): " + SGlobalVariable.EP_XYSF_C1.ToString(),
+            "XYSF_C2            GetByte(0x69): " + SGlobalVariable.EP_XYSF_C2.ToString(),
+            "XYSF_C3            GetByte(0x6a): " + SGlobalVariable.EP_XYSF_C3.ToString(),
+            "XYSF_C4            GetByte(0x6b): " + SGlobalVariable.EP_XYSF_C4.ToString(),
+
+            "ZSF_C1             GetByte(0x6c): " + SGlobalVariable.EP_ZSF_C1.ToString(),
+            "ZSF_C2             GetByte(0x6d): " + SGlobalVariable.EP_ZSF_C2.ToString(),
+            "ZSF_C3             GetByte(0x6e): " + SGlobalVariable.EP_ZSF_C3.ToString(),
+            "ZSF_C4             GetByte(0x6f): " + SGlobalVariable.EP_ZSF_C4.ToString(),
+
+            "AF_C1               GetByte(100): " + SGlobalVariable.EP_AF_C1.ToString(),
+            "AF_C2              GetByte(0x65): " + SGlobalVariable.EP_AF_C2.ToString(),
+            "AF_C3              GetByte(0x66): " + SGlobalVariable.EP_AF_C3.ToString(),
+            "AF_C4              GetByte(0x67): " + SGlobalVariable.EP_AF_C4.ToString(),
+
+            "PCameraCtr (sbyte) GetByte(0x80): " + SGlobalVariable.EP_PCameraCtr.ToString(),
+            "PCameraMax         GetByte(0x83): " + SGlobalVariable.EP_PCameraMax.ToString(),
+            "PCameraMid         GetByte(0x82): " + SGlobalVariable.EP_PCameraMid.ToString(),
+            "PCameraMin         GetByte(0x81): " + SGlobalVariable.EP_PCameraMin.ToString(),
+
+            "RCameraCtr (sbyte) GetByte(0x84): " + SGlobalVariable.EP_RCameraCtr.ToString(),
+            "RCameraMax         GetByte(0x87): " + SGlobalVariable.EP_RCameraMax.ToString(),
+            "RCameraMid         GetByte(0x86): " + SGlobalVariable.EP_RCameraMid.ToString(),
+            "RCameraMin         GetByte(0x85): " + SGlobalVariable.EP_RCameraMin.ToString(),
+
+            "YCameraCtr (sbyte) GetByte(0x88): " + SGlobalVariable.EP_YCameraCtr.ToString(),
+            "YCameraMax         GetByte(0x8b): " + SGlobalVariable.EP_YCameraMax.ToString(),
+            "YCameraMid         GetByte(0x8a): " + SGlobalVariable.EP_YCameraMid.ToString(),
+            "YCameraMin         GetByte(0x89): " + SGlobalVariable.EP_YCameraMin.ToString(),
 
 
-            paramStr[62] = "RCDamper   (sbyte) GetByte(0x7d): " + SGlobalVariable.EP_RCDamper.ToString();
-            paramStr[63] = "SafeAltitude       GetByte(0x94): " + SGlobalVariable.EP_SafeAltitude.ToString();
-
-            paramStr[64] = "XYSF_C1            GetByte(0x68): " + SGlobalVariable.EP_XYSF_C1.ToString();
-            paramStr[65] = "XYSF_C2            GetByte(0x69): " + SGlobalVariable.EP_XYSF_C2.ToString();
-            paramStr[66] = "XYSF_C3            GetByte(0x6a): " + SGlobalVariable.EP_XYSF_C3.ToString();
-            paramStr[67] = "XYSF_C4            GetByte(0x6b): " + SGlobalVariable.EP_XYSF_C4.ToString();
-
-            paramStr[68] = "ZSF_C1            GetByte(0x6c): " + SGlobalVariable.EP_ZSF_C1.ToString();
-            paramStr[69] = "ZSF_C2            GetByte(0x6d): " + SGlobalVariable.EP_ZSF_C2.ToString();
-            paramStr[70] = "ZSF_C3            GetByte(0x6e): " + SGlobalVariable.EP_ZSF_C3.ToString();
-            paramStr[71] = "ZSF_C4            GetByte(0x6f): " + SGlobalVariable.EP_ZSF_C4.ToString();
-
-            paramStr[72] = "PCameraCtr (sbyte) GetByte(0x80): " + SGlobalVariable.EP_PCameraCtr.ToString();
-            paramStr[73] = "PCameraMax         GetByte(0x83): " + SGlobalVariable.EP_PCameraMax.ToString();
-            paramStr[74] = "PCameraMid         GetByte(0x82): " + SGlobalVariable.EP_PCameraMid.ToString();
-            paramStr[75] = "PCameraMin         GetByte(0x81): " + SGlobalVariable.EP_PCameraMin.ToString();
-
-            paramStr[76] = "RCameraCtr (sbyte) GetByte(0x84): " + SGlobalVariable.EP_RCameraCtr.ToString();
-            paramStr[77] = "RCameraMax         GetByte(0x87): " + SGlobalVariable.EP_RCameraMax.ToString();
-            paramStr[78] = "RCameraMid         GetByte(0x86): " + SGlobalVariable.EP_RCameraMid.ToString();
-            paramStr[79] = "RCameraMin         GetByte(0x85): " + SGlobalVariable.EP_RCameraMin.ToString();
-
-            paramStr[80] = "YCameraCtr (sbyte) GetByte(0x88): " + SGlobalVariable.EP_YCameraCtr.ToString();
-            paramStr[81] = "YCameraMax         GetByte(0x8b): " + SGlobalVariable.EP_YCameraMax.ToString();
-            paramStr[82] = "YCameraMid         GetByte(0x8a): " + SGlobalVariable.EP_YCameraMid.ToString();
-            paramStr[83] = "YCameraMin         GetByte(0x89): " + SGlobalVariable.EP_YCameraMin.ToString();
-
-            paramStr[84] = "YCDamper   (sbyte) GetByte(0x7e): " + SGlobalVariable.EP_YCDamper.ToString();
+            };
 
             //string outStr = "";
             this.listBox.Items.Clear();
