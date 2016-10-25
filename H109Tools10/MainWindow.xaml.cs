@@ -156,7 +156,7 @@ namespace H109Tools10
                 file_len_1 *= f_data[0x1c];
                 // end of useless block?
 
-                offset_1 = f_data[1] + (~f_data[3] * 0x100);
+                offset_1 = f_data[1] + ((byte)~f_data[3] * 0x100);
                 file_len_1 = (f_data[offset_1 + 5] + (f_data[offset_1 + 7] << 8)) + (f_data[offset_1 + 9] << 0x10);
 
                 if (file_len_1 > 0x1fc020)
@@ -558,19 +558,6 @@ namespace H109Tools10
         }
 
 
-        public void UpdateParameterTable()
-        {
-            uint[] numArray = new uint[0];
-            SGlobalVariable.EP_ARPidX_P = (int)numArray[0];
-            SGlobalVariable.EP_ARPidY_P = (int)numArray[1];
-            SGlobalVariable.EP_ARPidZ_P = (int)numArray[2];
-            SGlobalVariable.EP_SafeAltitude = (byte)numArray[3];
-            SGlobalVariable.EP_NavMaxSpeed = (byte)numArray[4];
-            SGlobalVariable.EP_AltitudeLimit = (byte)numArray[5];
-            SGlobalVariable.EP_RadiusLimit = (byte)numArray[6];
-            SGlobalVariable.EP_AlarmVol = (byte)numArray[7];
-        }
-
         private void SetParamVisibility(Visibility v)
         {
             this.AltLimitD.Visibility = v;
@@ -693,6 +680,9 @@ namespace H109Tools10
                 SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
 
             }
+           
+           Thread.Sleep(1000);
+          
             ShowAllParameter();
         }
 
