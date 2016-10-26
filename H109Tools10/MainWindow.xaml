@@ -11,10 +11,10 @@
         <Button x:Name="B_MC_Update_SFile" Content="Open file" Margin="28,29,193,0" VerticalAlignment="Top" Click="B_MC_Update_SFile_Click_1"/>
         <Button x:Name="Update_button" Content="Update" Margin="0,29,32,0" VerticalAlignment="Top" Click="Update_button_Click" IsEnabled="False" HorizontalAlignment="Right" Width="75"/>
         <Label x:Name="fwinf" Content="FW version" Margin="157,63,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.502,0.501"/>
-        <Button x:Name="Refresh_FW_Inf" Content="Get FW Inf" HorizontalAlignment="Left" Margin="28,66,0,0" VerticalAlignment="Top" Width="100" Click="Refresh_FW_Inf_Click"/>
-        <Button x:Name="Show_all_params" Content="Show all params" HorizontalAlignment="Left" Height="21" Margin="28,104,0,0" VerticalAlignment="Top" Width="100" Click="Show_all_params_Click"/>
+        <Button x:Name="Refresh_FW_Inf" Content="Get FW Inf" HorizontalAlignment="Left" Margin="28,66,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Refresh_FW_Inf_Click"/>
+        <Button x:Name="Show_all_params" Content="Show all params" HorizontalAlignment="Left" Height="21" Margin="28,104,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Show_all_params_Click"/>
         <ListBox x:Name="listBox" Margin="157,104,10,10" Visibility="Collapsed" />
-        <Button x:Name="Edit_params" Content="Edit params" HorizontalAlignment="Left" Margin="28,145,0,0" VerticalAlignment="Top" Width="100" Click="Edit_params_Click"/>
+        <Button x:Name="Edit_params" Content="Edit params" HorizontalAlignment="Left" Margin="28,145,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Edit_params_Click"/>
         <Button x:Name="Flash_params" Content="Save params" HorizontalAlignment="Left" Margin="28,188,0,0" VerticalAlignment="Top" Width="100" Click="Flash_params_Click" Visibility="Hidden"/>
         <Label x:Name="AltLimitN" Content="Altitude limit" HorizontalAlignment="Left" Margin="155,113,0,0" VerticalAlignment="Top"/>
         <Label x:Name="AltLimitD" Content="0-255, 0 - no limit" HorizontalAlignment="Left" Margin="308,113,0,0" VerticalAlignment="Top"/>

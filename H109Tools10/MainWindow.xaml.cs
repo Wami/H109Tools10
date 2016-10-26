@@ -314,12 +314,17 @@ namespace H109Tools10
                                     num4 = buffer3.Length + 4;
                                     return;
                                 }
+                                
+
                             }
                             databuf[0] = 0xff;
                             databuf[1] = 0xff;
                             databuf[2] = 0xff;
                             databuf[3] = 0xff;
                             SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_UpdataMC, 4);
+
+                            SGlobalVariable.updated = true;
+
                         }
                     }
                 }
@@ -605,6 +610,13 @@ namespace H109Tools10
                 {
                     this.Update_button.IsEnabled = true;
                 }
+
+                if (SGlobalVariable.updated && !this.Refresh_FW_Inf.IsEnabled)
+                {
+                    this.Refresh_FW_Inf.IsEnabled = true;
+                    this.Show_all_params.IsEnabled = true;
+                    this.Edit_params.IsEnabled = true;
+                }
             }
             this.linkstate_prev = SGlobalVariable.mUsbCommunication.LinkF;
         }
@@ -661,6 +673,7 @@ namespace H109Tools10
                 worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
                 worker.RunWorkerAsync();
                 this.Update_button.IsEnabled = false;
+
             }
         }
 
