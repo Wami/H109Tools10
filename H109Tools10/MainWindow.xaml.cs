@@ -112,14 +112,15 @@ namespace H109Tools10
                 }
                 if (!this.iswrite)
                 {
-                    this.AutoHide_Label(this.LContent, "parameter reading is complete.");
+                    //this.AutoHide_Label(this.LContent, "parameter reading is complete.");
                 }
                 else
                 {
-                    this.AutoHide_Label(this.LContent, "save parameter is complete.");
+                    //this.AutoHide_Label(this.LContent, "save parameter is complete.");
                 }
-                this.iswrite = false;
-                this.ShowParameter();
+            
+               this.iswrite = false;
+               this.UpdateContent();
             }
             else if ((cmd != HidUsbCommunication.CI_SetSysPram2) && (cmd == SGlobalVariable.CI_GetMacDesc))
             {
@@ -398,32 +399,11 @@ namespace H109Tools10
             }
         }
 
-        public void ShowParameter()
+
+        public void UpdateContent()
         {
-            int num1 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidX];
-            int num2 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidX];
-            int num3 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidX];
-            int num4 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidY];
-            int num5 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidY];
-            int num6 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidY];
-            int num7 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidZ];
-            int num8 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidZ];
-            int num9 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ARPidZ];
-            int num10 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_BalancePid];
-            int num11 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_BalancePid];
-            int num12 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_BalancePid];
-            int num13 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ASPid];
-            int num14 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ASPid];
-            int num15 = SGlobalVariable.SysEEPRom[SGlobalVariable.EP_ASPid];
-        }
+            
 
-        public void ShowAllParameter()
-        {
-
-
-            if (this.listBox.Visibility != Visibility.Visible)
-            {
-                
                 string[] paramStr = new string[] {
                 "AlarmVol         GetByte(0x8f): " + SGlobalVariable.EP_AlarmVol.ToString(),
                 "LandingVol       GetByte(0x90): " + SGlobalVariable.EP_LandingVol.ToString(),
@@ -534,33 +514,53 @@ namespace H109Tools10
                 "YCameraMax         GetByte(0x8b): " + SGlobalVariable.EP_YCameraMax.ToString(),
                 "YCameraMid         GetByte(0x8a): " + SGlobalVariable.EP_YCameraMid.ToString(),
                 "YCameraMin         GetByte(0x89): " + SGlobalVariable.EP_YCameraMin.ToString(),
-
-
                 };
 
-                //string outStr = "";
-                this.listBox.Items.Clear();
-                foreach (string s in paramStr)
-                {
-                    //outStr = outStr + s + "\n";
-                    this.listBox.Items.Add(s);
-                }
+             
 
+            this.listBox.Items.Clear();
+            foreach (string s in paramStr)
+            {
+                //outStr = outStr + s + "\n";
+                this.listBox.Items.Add(s);
+            }
+
+            this.AltLimitP.Text = SGlobalVariable.EP_AltitudeLimit.ToString();
+            this.RadiusLimitP.Text = SGlobalVariable.EP_RadiusLimit.ToString();
+            this.ReturnAltitudeP.Text = SGlobalVariable.EP_SafeAltitude.ToString();
+            this.NavMaxSpeedP.Text = SGlobalVariable.EP_NavMaxSpeed.ToString();
+            this.AlarmVolP.Text = SGlobalVariable.EP_AlarmVol.ToString();
+            this.LandingVolP.Text = SGlobalVariable.EP_LandingVol.ToString();
+
+
+            if(SGlobalVariable.show_all)
+            {
                 this.listBox.Visibility = Visibility.Visible;
+                //SetParamVisibility(Visibility.Visible);
+                SGlobalVariable.show_all = false;
+
                 this.Show_all_params.Content = "Hide all params";
 
                 this.Edit_params.IsEnabled = false;
 
             }
-            else
-            {
-                this.listBox.Visibility = Visibility.Collapsed;
-                this.Show_all_params.Content = "Show all params";
-    
-                this.Edit_params.IsEnabled = true;
+            else if (SGlobalVariable.show_edit)
+             {
+                SetParamVisibility(Visibility.Visible);
+                SGlobalVariable.show_edit = false;
+
+
+                this.Flash_params.Visibility = Visibility.Visible;
+
+                this.Edit_params.Content = "Close edit params";
+
+
+                this.Show_all_params.IsEnabled = false;
+
             }
 
         }
+
 
 
         private void SetParamVisibility(Visibility v)
@@ -617,6 +617,13 @@ namespace H109Tools10
                     this.Show_all_params.IsEnabled = true;
                     this.Edit_params.IsEnabled = true;
                 }
+                if (SGlobalVariable.edit_mode)
+                {
+                  
+                    this.Show_all_params.IsEnabled = true;
+                    this.Edit_params.IsEnabled = true;
+                }
+
             }
             this.linkstate_prev = SGlobalVariable.mUsbCommunication.LinkF;
         }
@@ -693,10 +700,20 @@ namespace H109Tools10
                 SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_SetSysPram1, 1);
 
             }
-           
-           Thread.Sleep(1000);
-          
-            ShowAllParameter();
+
+            if (this.listBox.Visibility != Visibility.Visible)
+            {
+                SGlobalVariable.show_all = true;
+
+
+            }
+            else
+            {
+                this.listBox.Visibility = Visibility.Collapsed;
+                this.Show_all_params.Content = "Show all params";
+
+                this.Edit_params.IsEnabled = true;
+            }
         }
 
         //Click on Edit Params
@@ -705,7 +722,7 @@ namespace H109Tools10
 
             if (this.Flash_params.Visibility != Visibility.Visible)
             {
-
+                
                 if (!SGlobalVariable.isDebug) //if not debug get data from UAV
                 {
                     byte[] databuf = new byte[] { SGlobalVariable.ToolsVersion };
@@ -713,20 +730,8 @@ namespace H109Tools10
 
                 }
 
-                this.Flash_params.Visibility = Visibility.Visible;
+                SGlobalVariable.show_edit = true;
 
-                this.Edit_params.Content = "Close edit params";
-
-                this.AltLimitP.Text = SGlobalVariable.EP_AltitudeLimit.ToString();
-                this.RadiusLimitP.Text = SGlobalVariable.EP_RadiusLimit.ToString();
-                this.ReturnAltitudeP.Text = SGlobalVariable.EP_SafeAltitude.ToString();
-                this.NavMaxSpeedP.Text = SGlobalVariable.EP_NavMaxSpeed.ToString();
-                this.AlarmVolP.Text = SGlobalVariable.EP_AlarmVol.ToString();
-                this.LandingVolP.Text = SGlobalVariable.EP_LandingVol.ToString();
-
-                SetParamVisibility(Visibility.Visible);
-
-                this.Show_all_params.IsEnabled = false;
 
             }
             else
@@ -745,15 +750,6 @@ namespace H109Tools10
         private void Flash_params_Click(object sender, RoutedEventArgs e)
         {
             bool haveErr = false;
-
-            //SGlobalVariable.EP_ARPidX_P = (int)numArray[0];
-            //SGlobalVariable.EP_ARPidY_P = (int)numArray[1];
-            //SGlobalVariable.EP_ARPidZ_P = (int)numArray[2];
-            //SGlobalVariable.EP_SafeAltitude = (byte)numArray[3];
-            //SGlobalVariable.EP_NavMaxSpeed = (byte)numArray[4];
-            //SGlobalVariable.EP_AltitudeLimit = (byte)numArray[5];
-            //SGlobalVariable.EP_RadiusLimit = (byte)numArray[6];
-            //SGlobalVariable.EP_AlarmVol = (byte)numArray[7];
 
             int val;
             if (int.TryParse(this.AltLimitP.Text, out val))
@@ -835,6 +831,16 @@ namespace H109Tools10
             }
         }
 
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] databuf = new byte[10];
+            databuf[0] = 0xff;
+            databuf[1] = 0xff;
+            databuf[2] = 0xff;
+            databuf[3] = 0xff;
+            SGlobalVariable.mUsbCommunication.SenderPackToUsart(ref databuf, HidUsbCommunication.CI_UpdataMC, 4);
 
+            SGlobalVariable.edit_mode = true;
+        }
     }
 }

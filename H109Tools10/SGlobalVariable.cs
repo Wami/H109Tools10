@@ -8,6 +8,12 @@
     {
         public static bool isDebug = false;
         public static bool updated = false;
+        public static bool edit_mode = false;
+
+        public static bool show_all = false;
+        public static bool show_edit = false;
+
+
 
         //++not implemented
         public static byte CCodeRestIMU = 0x13;
