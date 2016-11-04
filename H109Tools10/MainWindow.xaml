@@ -5,36 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:H109Tools10"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="614.895">
+        Title="UAV parammeter editor" Height="350" Width="614.895">
     <Grid Margin="0,0,2,0">
-        <Label x:Name="LContent" Content="Connection state" HorizontalAlignment="Left" Height="24" Margin="28,0,0,0" VerticalAlignment="Top" Width="133"/>
-        <Button x:Name="B_MC_Update_SFile" Content="Open file" Margin="28,29,193,0" VerticalAlignment="Top" Click="B_MC_Update_SFile_Click_1"/>
-        <Button x:Name="Update_button" Content="Update" Margin="0,29,32,0" VerticalAlignment="Top" Click="Update_button_Click" IsEnabled="False" HorizontalAlignment="Right" Width="75"/>
-        <Label x:Name="fwinf" Content="FW version" Margin="157,63,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.502,0.501"/>
-        <Button x:Name="Refresh_FW_Inf" Content="Get FW Inf" HorizontalAlignment="Left" Margin="28,66,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Refresh_FW_Inf_Click"/>
-        <Button x:Name="Show_all_params" Content="Show all params" HorizontalAlignment="Left" Height="21" Margin="28,202,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Show_all_params_Click"/>
-        <ListBox x:Name="listBox" Margin="157,104,10,10" Visibility="Collapsed" />
-        <Button x:Name="Edit_params" Content="Edit params" HorizontalAlignment="Left" Margin="28,234,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Edit_params_Click"/>
-        <Button x:Name="Flash_params" Content="Save params" HorizontalAlignment="Left" Margin="28,263,0,0" VerticalAlignment="Top" Width="100" Click="Flash_params_Click" Visibility="Hidden"/>
-        <Label x:Name="AltLimitN" Content="Altitude limit" HorizontalAlignment="Left" Margin="155,113,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="AltLimitD" Content="0-255, 0 - no limit. " HorizontalAlignment="Left" Margin="308,113,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="AltLimitP" HorizontalAlignment="Left" Height="23" Margin="247,113,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
-        <Label x:Name="RadiusLimitN" Content="Radius limit" HorizontalAlignment="Left" Margin="155,145,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="RadiusLimitD" Content="0-255, 0 - no limit " HorizontalAlignment="Left" Margin="308,145,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="RadiusLimitP" HorizontalAlignment="Left" Height="23" Margin="247,145,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
-        <Label x:Name="ReturnAltitudeN" Content="Return altitude" HorizontalAlignment="Left" Margin="155,174,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="ReturnAltitudeD" Content="0-255 " HorizontalAlignment="Left" Margin="308,174,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="ReturnAltitudeP" HorizontalAlignment="Left" Height="23" Margin="247,174,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
-        <Label x:Name="NavMaxSpeedN" Content="Nav max speed" HorizontalAlignment="Left" Margin="155,202,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="NavMaxSpeedD" Content="0-255  CHANGING MAY LEAD TO CRASH!" HorizontalAlignment="Left" Margin="308,202,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="NavMaxSpeedP" HorizontalAlignment="Left" Height="23" Margin="247,202,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
-        <Label x:Name="AlarmVolN" Content="Alarm voltage" HorizontalAlignment="Left" Margin="155,230,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="AlarmVolD" Content="0-255" HorizontalAlignment="Left" Margin="308,230,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="AlarmVolP" HorizontalAlignment="Left" Height="23" Margin="247,230,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
-        <Label x:Name="LandingVolN" Content="Landing voltage" HorizontalAlignment="Left" Margin="155,253,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LandingVolD" Content="0-255  CHANGING MAY LEAD TO CRASH!" HorizontalAlignment="Left" Margin="308,253,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="LandingVolP" HorizontalAlignment="Left" Height="23" Margin="247,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56"/>
-        <Button x:Name="button" Content="Get params" HorizontalAlignment="Left" Margin="28,158,0,0" VerticalAlignment="Top" Width="100" Click="button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="84*"/>
+            <ColumnDefinition Width="521*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="LContent" Content="Connection state" HorizontalAlignment="Left" Height="24" Margin="28,0,0,0" VerticalAlignment="Top" Width="133" Grid.ColumnSpan="2"/>
+        <Button x:Name="B_MC_Update_SFile" Content="Open file" Margin="28,29,193,0" VerticalAlignment="Top" Click="B_MC_Update_SFile_Click_1" Grid.ColumnSpan="2"/>
+        <Button x:Name="Update_button" Content="Update" Margin="0,29,32,0" VerticalAlignment="Top" Click="Update_button_Click" IsEnabled="False" HorizontalAlignment="Right" Width="75" Grid.Column="1"/>
+        <Label x:Name="fwinf" Content="FW version" Margin="73.471,63,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.502,0.501" Grid.Column="1"/>
+        <Button x:Name="Refresh_FW_Inf" Content="Get FW Inf" HorizontalAlignment="Left" Margin="28,66,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Refresh_FW_Inf_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="Show_all_params" Content="Show all params" HorizontalAlignment="Left" Height="21" Margin="28,202,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Show_all_params_Click" Grid.ColumnSpan="2"/>
+        <ListBox x:Name="listBox" Margin="73.471,104,10,10" Visibility="Collapsed" Grid.Column="1" />
+        <Button x:Name="Edit_params" Content="Edit params" HorizontalAlignment="Left" Margin="28,234,0,0" VerticalAlignment="Top" Width="100" IsEnabled="False" Click="Edit_params_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="Flash_params" Content="Save params" HorizontalAlignment="Left" Margin="28,263,0,0" VerticalAlignment="Top" Width="100" Click="Flash_params_Click" Visibility="Hidden" Grid.ColumnSpan="2"/>
+        <Label x:Name="AltLimitN" Content="Altitude limit" HorizontalAlignment="Left" Margin="71.471,113,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="AltLimitD" Content="0-255, 0 - no limit. " HorizontalAlignment="Left" Margin="224.471,113,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="AltLimitP" HorizontalAlignment="Left" Height="23" Margin="163.471,113,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56" Grid.Column="1"/>
+        <Label x:Name="RadiusLimitN" Content="Radius limit" HorizontalAlignment="Left" Margin="71.471,145,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="RadiusLimitD" Content="0-255, 0 - no limit " HorizontalAlignment="Left" Margin="224.471,145,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="RadiusLimitP" HorizontalAlignment="Left" Height="23" Margin="163.471,145,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56" Grid.Column="1"/>
+        <Label x:Name="ReturnAltitudeN" Content="Return altitude" HorizontalAlignment="Left" Margin="71.471,174,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="ReturnAltitudeD" Content="0-255 " HorizontalAlignment="Left" Margin="224.471,174,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="ReturnAltitudeP" HorizontalAlignment="Left" Height="23" Margin="163.471,174,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56" Grid.Column="1"/>
+        <Label x:Name="NavMaxSpeedN" Content="Nav max speed" HorizontalAlignment="Left" Margin="71.471,202,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="NavMaxSpeedD" Content="0-255  CHANGINES MAY LEAD TO CRASH!" HorizontalAlignment="Left" Margin="224.471,202,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="NavMaxSpeedP" HorizontalAlignment="Left" Height="23" Margin="163.471,202,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56" Grid.Column="1"/>
+        <Label x:Name="AlarmVolN" Content="Alarm voltage" HorizontalAlignment="Left" Margin="71.471,230,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="AlarmVolD" Content="0-255" HorizontalAlignment="Left" Margin="224.471,230,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="AlarmVolP" HorizontalAlignment="Left" Height="23" Margin="163.471,230,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56" Grid.Column="1"/>
+        <Label x:Name="LandingVolN" Content="Landing voltage" HorizontalAlignment="Left" Margin="71.471,253,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="LandingVolD" Content="0-255  CHANGINES MAY LEAD TO CRASH!" HorizontalAlignment="Left" Margin="224.471,253,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="LandingVolP" HorizontalAlignment="Left" Height="23" Margin="163.471,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="56" Grid.Column="1"/>
+        <Button x:Name="button" Content="Get params" HorizontalAlignment="Left" Margin="28,158,0,0" VerticalAlignment="Top" Width="100" Click="button_Click" Grid.ColumnSpan="2"/>
+        <Label x:Name="label" Content="Not affifieted with HUBSAN tech. Use at your own risk" HorizontalAlignment="Left" Height="29" Margin="176.471,0,0,0" VerticalAlignment="Top" Width="335" Grid.Column="1"/>
 
     </Grid>
 </Window>
