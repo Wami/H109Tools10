@@ -18,15 +18,15 @@ It can be illegal to alter the parameters in some countries.
 
 How to:
 
-    connect the drone
-    launch the app
-    wait until it shown "connected"
-    press "Get params"
-    wait until it shown "connected"
-    press "Edit params"
-    if nothing happened repeat from step 4
-    change parameters
-    press "Save"
-    wait a bit
-    repeat 1-6 and check that everything is saved.
-    make a test flight in a safe area
+1 connect the drone
+2 launch the app
+3 wait until it shown "connected"
+4 press "Get params"
+5 wait until it shown "connected"
+6 press "Edit params"
+7 if nothing happened repeat from step 4
+8 change parameters
+9 press "Save"
+10 wait a bit
+11 repeat 1-6 and check that everything is saved.
+12 make a test flight in a safe area
