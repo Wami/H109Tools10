@@ -12,7 +12,7 @@ The program was checked on h109s low edition but may work on h109s high and h501
 Its is buggy but sometimes does what it should do. Anyone can fork it it ad make it better.
 
 IMPORTANT WARNING!
-All responsibility for potential crashed, damages and so on lies on you.
+All responsibility for potential crashes, damages and so on lies on you.
 There are no checks and tests so any change can lead to crash.
 It can be illegal to alter the parameters in some countries.
 
